@@ -10,7 +10,8 @@ class Field
 
 	std::random_device random_device;
 
-	std::vector<Cell> cells;
+	FieldMatrix cells;
+	// std::vector<Cell> cells;
 public:
 	Field();
 
@@ -20,7 +21,7 @@ public:
 
 	unsigned short get_flags();
 
-	void draw(sf::RenderWindow& i_window);
+	void draw(sf::RenderWindow &i_window);
 	void flag_cell(unsigned char i_x, unsigned char i_y);
 	void open_cell(unsigned char i_x, unsigned char i_y);
 	void restart();

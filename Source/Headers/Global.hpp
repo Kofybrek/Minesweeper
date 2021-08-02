@@ -1,5 +1,5 @@
 #pragma once
-
+#include <array>
 //The size of the cell
 constexpr unsigned char CELL_SIZE = 16;
 //Number of columns
@@ -19,3 +19,5 @@ constexpr unsigned char SCREEN_RESIZE = 4;
 constexpr unsigned short FRAME_DURATION = 16667;
 //Total number of mines
 constexpr unsigned short MINES = 8;
+
+using FieldMatrix = std::array<std::array<Cell, COLUMNS>, ROWS>;
