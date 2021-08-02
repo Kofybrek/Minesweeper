@@ -1,15 +1,22 @@
-#include <vector>
+#include <array>
 
 #include "Headers/Cell.hpp"
-#include "Headers/GetCell.hpp"
 #include "Headers/Global.hpp"
 
-Cell::Cell(unsigned char i_x, unsigned char i_y) :
-	mines_around(0),
-	x(i_x),
-	y(i_y)
+Cell::Cell(unsigned char i_x, unsigned char i_y) : mines_around(0),
+												   x(i_x),
+												   y(i_y)
 {
 	//I already have a reset function, so why not use it when creating an object?
+	reset();
+}
+
+Cell::Cell() : mines_around(0) {}
+
+void Cell::set_coordinates(unsigned char i_x, unsigned char i_y)
+{
+	x = i_x;
+	y = i_y;
 	reset();
 }
 
@@ -31,7 +38,7 @@ bool Cell::get_is_open()
 	return is_open;
 }
 
-bool Cell::open(std::vector<Cell>& i_cells)
+bool Cell::open(FieldMatrix &i_cells)
 {
 	//"You can't open a cell that's already open" - (c) Someone smart, I think
 	if (0 == is_open)
@@ -52,7 +59,8 @@ bool Cell::open(std::vector<Cell>& i_cells)
 					}
 
 					//Open the neighboring cells (even if they don't like it!)
-					get_cell(a + x, b + y, i_cells)->open(i_cells);
+					// get_cell(a + x, b + y, i_cells)->open(i_cells);
+					i_cells[a + x][b + y].open(i_cells);
 				}
 			}
 		}
@@ -106,7 +114,7 @@ unsigned char Cell::get_mouse_state()
 	return mouse_state;
 }
 
-void Cell::count_mines_around(std::vector<Cell>& i_cells)
+void Cell::count_mines_around(FieldMatrix &i_cells)
 {
 	//We start counting from 0
 	mines_around = 0;
@@ -124,11 +132,11 @@ void Cell::count_mines_around(std::vector<Cell>& i_cells)
 				}
 
 				//If the neighbor has a mine...
-				if (1 == get_cell(a + x, b + y, i_cells)->get_is_mine())
+				if (1 == i_cells[a + x][b + y].get_is_mine())
 				{
 					//...increment this variable
 					/*THIS ONE => */ mines_around++; // <= THIS ONE (Can you see it?)
-					//It's on the line 130
+													 //It's on the line 130
 				}
 			}
 		}
